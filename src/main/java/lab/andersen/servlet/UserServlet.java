@@ -35,6 +35,19 @@ public class UserServlet extends HttpServlet {
         try (PrintWriter writer = resp.getWriter()) {
             if (pathInfo == null || pathInfo.equals("/")) {
                 writer.write(gson.toJson(users));
+            }else {
+                User user = null;
+                try {
+                    int id = Integer.parseInt(pathInfo.replace("/", ""));
+                    user = userService.findById(id);
+                } catch (NumberFormatException e) {
+                    resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Unable to parse user_id to number");
+                    return;
+                } catch (ServiceException e) {
+                    resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+                    return;
+                }
+                writer.print(gson.toJson(user));
             }
         }
     }
