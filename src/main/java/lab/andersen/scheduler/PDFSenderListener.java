@@ -55,9 +55,9 @@ public class PDFSenderListener implements ServletContextListener {
 
         scheduler = Executors.newSingleThreadScheduledExecutor();
         scheduler.scheduleAtFixedRate(() -> {
+            TelegramSender.sendMessage("PDF with daily activities");
             PdfGenerator.getINSTANCE().generate();
 
-            TelegramSender.sendMessage("PDF with daily activities");
             TelegramSender.sendPDF(new File(FULL_PATH_PDF));
 
             EmailSenderService.getINSTANCE().sendEmail(
@@ -76,7 +76,7 @@ public class PDFSenderListener implements ServletContextListener {
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
 //        taskExecutor.stop();
-        scheduler.shutdown();
+        scheduler.shutdownNow();
     }
 
 }
