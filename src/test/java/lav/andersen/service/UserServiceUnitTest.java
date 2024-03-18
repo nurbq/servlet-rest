@@ -1,6 +1,7 @@
 package lav.andersen.service;
 
 import lab.andersen.dao.UserDao;
+import lab.andersen.dto.UserDto;
 import lab.andersen.entity.User;
 import lab.andersen.exception.DaoException;
 import lab.andersen.service.UserService;
@@ -35,7 +36,7 @@ public class UserServiceUnitTest {
 
         when(userDao.findAll()).thenReturn(expectedUsers);
 
-        List<User> actualUsers = userService.findAll();
+        List<UserDto> actualUsers = userService.findAll();
 
         verify(userDao, times(1)).findAll();
 

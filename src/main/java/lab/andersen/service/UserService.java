@@ -10,6 +10,7 @@ import lab.andersen.exception.UserNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class UserService {
 
@@ -20,9 +21,14 @@ public class UserService {
     }
 
 
-    public List<User> findAll()  {
+    public List<UserDto> findAll()  {
         try {
-            return userDao.findAll();
+            return userDao.findAll().stream()
+                    .map(user -> new UserDto(
+                            user.getSurname(),
+                            user.getName(),
+                            user.getAge()
+                    )).collect(Collectors.toList());
         } catch (DaoException e) {
             throw new RuntimeException(e);
         }

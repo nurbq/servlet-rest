@@ -2,6 +2,7 @@ package lab.andersen.servlet;
 
 import com.google.gson.Gson;
 import lab.andersen.dao.UserDao;
+import lab.andersen.dto.UserDto;
 import lab.andersen.entity.User;
 import lab.andersen.exception.ServiceException;
 import lab.andersen.service.UserService;
@@ -31,7 +32,7 @@ public class UserServlet extends HttpServlet {
         resp.setCharacterEncoding(StandardCharsets.UTF_8.name());
 
         String pathInfo = req.getPathInfo();
-        List<User> users = userService.findAll();
+        List<UserDto> users = userService.findAll();
         try (PrintWriter writer = resp.getWriter()) {
             if (pathInfo == null || pathInfo.equals("/")) {
                 writer.write(gson.toJson(users));

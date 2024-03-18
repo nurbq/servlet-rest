@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public class UserDao {
 
-    private static final String FIND_ALL_USERS = "SELECT id, age, surname, name FROM users order by id;";
+    private static final String FIND_ALL_USERS = "SELECT id, age, surname, name, password FROM users order by id;";
     private static final String FIND_USER_BY_ID = "SELECT id, age, surname, name FROM users WHERE id = ?";
     private static final String CREATE_USER = "INSERT INTO users(age, surname, name) VALUES (?, ?, ?)";
     private static final String UPDATE_USER = "UPDATE users SET age = ?, surname = ?, name = ? WHERE id = ?";
