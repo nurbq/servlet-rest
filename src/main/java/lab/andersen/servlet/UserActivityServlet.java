@@ -2,12 +2,9 @@ package lab.andersen.servlet;
 
 import com.google.gson.Gson;
 import lab.andersen.dao.UserActivityDao;
-import lab.andersen.dao.UserDao;
-import lab.andersen.entity.User;
 import lab.andersen.entity.UserActivity;
 import lab.andersen.exception.ServiceException;
 import lab.andersen.service.UserActivityService;
-import lab.andersen.service.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,7 +31,7 @@ public class UserActivityServlet extends HttpServlet {
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
         String pathInfo = req.getPathInfo();
-        if(pathInfo == null || pathInfo.equals("/")) {
+        if (pathInfo == null || pathInfo.equals("/")) {
             List<UserActivity> activities = null;
             try {
                 activities = userActivityService.findAllUsersActivities();
@@ -72,8 +68,7 @@ public class UserActivityServlet extends HttpServlet {
         } catch (ServiceException e) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
             System.out.println(e);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
         resp.setStatus(HttpServletResponse.SC_CREATED);
@@ -89,8 +84,7 @@ public class UserActivityServlet extends HttpServlet {
         } catch (ServiceException e) {
             System.out.println(e);
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.err.println(e);
         }
     }
