@@ -22,4 +22,8 @@ public class UserService {
             throw new RuntimeException(e);
         }
     }
+
+    public void create(User user) {
+        userDao.create(user);
+    }
 }

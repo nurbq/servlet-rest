@@ -10,10 +10,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @WebServlet("/users/*")
 public class UserServlet extends HttpServlet {
@@ -33,6 +35,15 @@ public class UserServlet extends HttpServlet {
             if (pathInfo == null || pathInfo.equals("/")) {
                 writer.write(gson.toJson(users));
             }
+        }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try (BufferedReader reader = req.getReader()) {
+            String jsonUser = reader.lines().collect(Collectors.joining());
+            User user = gson.fromJson(jsonUser, User.class);
+            userService.create(user);
         }
     }
 }
