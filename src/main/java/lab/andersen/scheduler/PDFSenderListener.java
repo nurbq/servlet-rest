@@ -26,38 +26,18 @@ public class PDFSenderListener implements ServletContextListener {
     private static final String BODY_MESSAGE = "Attaching files";
     private static final String SUBJECT_MESSAGE = "Activity of users";
     private static final String FULL_PATH_PDF = PropertiesUtils.get("pdf.base.url") + LocalDate.now() + ".pdf";
-    private static final int TARGET_HOUR = 16;
-    private static final int TARGET_MIN = 15;
+    private static final int TARGET_HOUR = 17;
+    private static final int TARGET_MIN = 8;
     private static final int TARGET_SEC = 0;
 
     private ScheduledExecutorService scheduler;
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-//        taskExecutor = new TaskExecutor(() -> {
-//            PdfGenerator.getINSTANCE().generate();
-//
-//            TelegramSender.sendMessage("PDF with daily activities");
-//            TelegramSender.sendPDF(new File(FULL_PATH_PDF));
-//
-//            EmailSenderService.getINSTANCE().sendEmail(
-//                    EMAIL_TO,
-//                    EMAIL_PASSWORD,
-//                    EMAIL_FROM,
-//                    BODY_MESSAGE,
-//                    SUBJECT_MESSAGE,
-//                    FULL_PATH_PDF
-//            );
-//
-//            logger.info("Messages to Telegram and email have been sent");
-//        });
-//        taskExecutor.startExecutionAt(TARGET_HOUR, TARGET_MIN, TARGET_SEC);
-
-        scheduler = Executors.newSingleThreadScheduledExecutor();
-        scheduler.scheduleAtFixedRate(() -> {
-            TelegramSender.sendMessage("PDF with daily activities");
+        taskExecutor = new TaskExecutor(() -> {
             PdfGenerator.getINSTANCE().generate();
 
+            TelegramSender.sendMessage("PDF with daily activities");
             TelegramSender.sendPDF(new File(FULL_PATH_PDF));
 
             EmailSenderService.getINSTANCE().sendEmail(
@@ -70,13 +50,34 @@ public class PDFSenderListener implements ServletContextListener {
             );
 
             logger.info("Messages to Telegram and email have been sent");
-        }, 0, 10, TimeUnit.SECONDS);
+        });
+        taskExecutor.startExecutionAt(TARGET_HOUR, TARGET_MIN, TARGET_SEC);
+//        taskExecutor.startExecutionRepeat();
+
+//        scheduler = Executors.newSingleThreadScheduledExecutor();
+//        scheduler.scheduleAtFixedRate(() -> {
+//            TelegramSender.sendMessage("PDF with daily activities");
+//            PdfGenerator.getINSTANCE().generate();
+//
+//            TelegramSender.sendPDF(new File(FULL_PATH_PDF));
+//
+//            EmailSenderService.getINSTANCE().sendEmail(
+//                    EMAIL_TO,
+//                    EMAIL_PASSWORD,
+//                    EMAIL_FROM,
+//                    BODY_MESSAGE,
+//                    SUBJECT_MESSAGE,
+//                    FULL_PATH_PDF
+//            );
+//
+//            logger.info("Messages to Telegram and email have been sent");
+//        }, 0, 10, TimeUnit.SECONDS);
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
 //        taskExecutor.stop();
-        scheduler.shutdownNow();
+//        scheduler.shutdownNow();
     }
 
 }
