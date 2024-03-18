@@ -1,6 +1,7 @@
 package lab.andersen.servlet;
 
 import com.google.gson.Gson;
+import lab.andersen.dao.UserDao;
 import lab.andersen.entity.User;
 import lab.andersen.service.UserService;
 
@@ -17,7 +18,7 @@ import java.util.List;
 @WebServlet("/users/*")
 public class UserServlet extends HttpServlet {
 
-    private final UserService userService = UserService.getInstance();
+    private final UserService userService = new UserService(new UserDao());
 
     private final Gson gson = new Gson();
 

@@ -8,11 +8,12 @@ import java.util.List;
 
 public class UserService {
 
-    private static final UserService INSTANCE = new UserService();
-    private final UserDao userDao = UserDao.getInstance();
+    private final UserDao userDao;
 
-    private UserService() {
+    public UserService(UserDao userDao) {
+        this.userDao = userDao;
     }
+
 
     public List<User> findAll()  {
         try {
@@ -20,9 +21,5 @@ public class UserService {
         } catch (DaoException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public static UserService getInstance() {
-        return INSTANCE;
     }
 }

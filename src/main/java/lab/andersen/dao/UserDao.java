@@ -13,13 +13,7 @@ import java.util.List;
 
 public class UserDao {
 
-    private static final UserDao INSTANCE = new UserDao();
-
-    private UserDao() {
-    }
-
     private static final String FIND_ALL_USERS = "SELECT id, age, surname, name FROM users order by id;";
-
 
     public List<User> findAll() throws DaoException {
         List<User> allUsers = new ArrayList<>();
@@ -39,11 +33,6 @@ public class UserDao {
             throw new DaoException(e);
         }
         return allUsers;
-    }
-
-
-    public static UserDao getInstance() {
-        return INSTANCE;
     }
 
 }
