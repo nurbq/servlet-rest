@@ -23,7 +23,7 @@ public class UserService {
         }
     }
 
-    public void create(User user) {
-        userDao.create(user);
+    public Integer create(User user) {
+        return userDao.create(user);
     }
 }

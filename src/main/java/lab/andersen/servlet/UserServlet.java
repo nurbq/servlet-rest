@@ -40,10 +40,15 @@ public class UserServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try (BufferedReader reader = req.getReader()) {
+        try (
+                BufferedReader reader = req.getReader();
+                PrintWriter writer = resp.getWriter()
+        ) {
             String jsonUser = reader.lines().collect(Collectors.joining());
             User user = gson.fromJson(jsonUser, User.class);
-            userService.create(user);
+            Integer result = userService.create(user);
+
+            writer.write(result);
         }
     }
 }

@@ -35,7 +35,7 @@ public class UserDao {
         return allUsers;
     }
 
-    public void create(User user) {
+    public Integer create(User user) {
         try (
                 Connection connection = ConnectionManager.open();
                 PreparedStatement preparedStatement = connection.prepareStatement(CREATE_USER)
@@ -43,7 +43,8 @@ public class UserDao {
             preparedStatement.setInt(1, user.getAge());
             preparedStatement.setString(2, user.getSurname());
             preparedStatement.setString(3, user.getName());
-            preparedStatement.executeUpdate();
+
+            return preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
