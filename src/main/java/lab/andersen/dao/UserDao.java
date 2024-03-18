@@ -2,16 +2,21 @@ package lab.andersen.dao;
 
 import lab.andersen.entity.User;
 import lab.andersen.exception.DaoException;
+import lab.andersen.exception.UserNotFoundException;
 import lab.andersen.util.ConnectionManager;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class UserDao {
 
     private static final String FIND_ALL_USERS = "SELECT id, age, surname, name FROM users order by id;";
+    private static final String FIND_USER_BY_ID = "SELECT id, age, surname, name FROM users WHERE id = ?";
     private static final String CREATE_USER = "INSERT INTO users(age, surname, name) VALUES (?, ?, ?)";
+    private static final String UPDATE_USER = "UPDATE users SET age = ?, surname = ?, name = ? WHERE id = ?";
+    private static final String DELETE_USER = "DELETE FROM users WHERE id = ?";
 
     public List<User> findAll() throws DaoException {
         List<User> allUsers = new ArrayList<>();
@@ -47,6 +52,55 @@ public class UserDao {
             return preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public Optional<User> findById(int id) throws DaoException {
+        User user = null;
+        try (Connection connection = ConnectionManager.open();
+             PreparedStatement statement = connection.prepareStatement(FIND_USER_BY_ID)
+        ) {
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                user = new User(
+                        resultSet.getInt("id"),
+                        resultSet.getInt("age"),
+                        resultSet.getString("surname"),
+                        resultSet.getString("name")
+                );
+            }
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+        return Optional.ofNullable(user);
+    }
+
+    public void update(User entity) throws DaoException {
+        try (Connection connection = ConnectionManager.open();
+             PreparedStatement statement = connection.prepareStatement(UPDATE_USER)
+        ) {
+            if (findById(entity.getId()).isPresent()) {
+                statement.setInt(1, entity.getAge());
+                statement.setString(2, entity.getSurname());
+                statement.setString(3, entity.getName());
+                statement.setInt(4, entity.getId());
+                statement.executeUpdate();
+            } else {
+                throw new UserNotFoundException(String.format("User with id=%d doesn't exist", entity.getId()));
+            }
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+    }
+
+    public void delete(int id) throws DaoException {
+        try (Connection connection = ConnectionManager.open();
+             PreparedStatement statement = connection.prepareStatement(DELETE_USER)) {
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DaoException(e);
         }
     }
 }

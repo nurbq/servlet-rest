@@ -25,11 +25,6 @@ public class TaskExecutor {
         executorService.schedule(taskWrapper, delay, TimeUnit.SECONDS);
     }
 
-    public void startExecutionRepeat(long seconds) {
-        executorService.schedule(task::execute, seconds, TimeUnit.SECONDS);
-    }
-
-
     private long computeNextDelay(int targetHour, int targetMin, int targetSec) {
         LocalDateTime localNow = LocalDateTime.now();
         ZoneId currentZone = ZoneId.systemDefault();

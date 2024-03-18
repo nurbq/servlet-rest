@@ -3,6 +3,7 @@ package lab.andersen.servlet;
 import com.google.gson.Gson;
 import lab.andersen.dao.UserDao;
 import lab.andersen.entity.User;
+import lab.andersen.exception.ServiceException;
 import lab.andersen.service.UserService;
 
 import javax.servlet.ServletException;
@@ -51,4 +52,28 @@ public class UserServlet extends HttpServlet {
             writer.write(result);
         }
     }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try (BufferedReader reader = req.getReader()) {
+            String jsonUser = reader.lines().collect(Collectors.joining());
+            User user = gson.fromJson(jsonUser, User.class);
+            userService.update(user);
+        } catch (ServiceException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String pathInfo = req.getPathInfo();
+        try {
+            int id = Integer.parseInt(pathInfo.replace("/", ""));
+            userService.delete(id);
+        } catch (ServiceException | NumberFormatException e) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+        }
+        resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
+    }
+
 }
