@@ -30,8 +30,8 @@ public class UserServiceUnitTest {
     @Test
     public void findAllUsers_returnsUsers() throws DaoException {
         List<User> expectedUsers = new ArrayList<>();
-        expectedUsers.add(new User(1, 20, "TestName1", "testname2"));
-        expectedUsers.add(new User(2, 21, "TestName2", "testname3"));
+        expectedUsers.add(new User(1, 20, "TestName1", "testname2", "password"));
+        expectedUsers.add(new User(2, 21, "TestName2", "testname3", "password"));
 
         when(userDao.findAll()).thenReturn(expectedUsers);
 
