@@ -1,5 +1,5 @@
 <html>
 <body>
-<h2>Hello World!</h2>
+<h2>servlet-rest App</h2>
 </body>
 </html>
