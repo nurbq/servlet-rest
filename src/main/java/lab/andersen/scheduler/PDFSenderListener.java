@@ -29,6 +29,24 @@ public class PDFSenderListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
+//        taskExecutor = new TaskExecutor(() -> {
+//            PdfGenerator.getINSTANCE().generate();
+//
+//            TelegramSender.sendMessage("PDF with daily activities");
+//            TelegramSender.sendPDF(new File(FULL_PATH_PDF));
+//
+//            EmailSenderService.getINSTANCE().sendEmail(
+//                    EMAIL_TO,
+//                    EMAIL_PASSWORD,
+//                    EMAIL_FROM,
+//                    BODY_MESSAGE,
+//                    SUBJECT_MESSAGE,
+//                    FULL_PATH_PDF
+//            );
+//
+//            logger.info("Messages to Telegram and email have been sent");
+//        });
+//        taskExecutor.startExecutionAt(TARGET_HOUR, TARGET_MIN, TARGET_SEC);
         taskExecutor = new TaskExecutor(() -> {
             PdfGenerator.getINSTANCE().generate();
 
@@ -46,7 +64,7 @@ public class PDFSenderListener implements ServletContextListener {
 
             logger.info("Messages to Telegram and email have been sent");
         });
-        taskExecutor.startExecutionAt(TARGET_HOUR, TARGET_MIN, TARGET_SEC);
+        taskExecutor.startExecutionRepeat();
     }
 
     @Override

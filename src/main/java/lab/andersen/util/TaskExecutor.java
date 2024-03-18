@@ -25,6 +25,10 @@ public class TaskExecutor {
         executorService.schedule(taskWrapper, delay, TimeUnit.SECONDS);
     }
 
+    public void startExecutionRepeat() {
+        executorService.schedule(task::execute, 5, TimeUnit.SECONDS);
+    }
+
 
     private long computeNextDelay(int targetHour, int targetMin, int targetSec) {
         LocalDateTime localNow = LocalDateTime.now();
