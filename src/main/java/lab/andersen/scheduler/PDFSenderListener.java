@@ -24,8 +24,8 @@ public class PDFSenderListener implements ServletContextListener {
     private static final String BODY_MESSAGE = "Attaching files";
     private static final String SUBJECT_MESSAGE = "Activity of users";
     private static final String FULL_PATH_PDF = PropertiesUtils.get("pdf.base.url") + LocalDate.now() + ".pdf";
-    private static final int TARGET_HOUR = 17;
-    private static final int TARGET_MIN = 12;
+    private static final int TARGET_HOUR = 22;
+    private static final int TARGET_MIN = 21;
     private static final int TARGET_SEC = 0;
 
     @Override
