@@ -5,7 +5,6 @@ import lab.andersen.entity.User;
 import lab.andersen.exception.DaoException;
 import lab.andersen.service.UserService;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
