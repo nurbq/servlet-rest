@@ -1,6 +1,8 @@
 package lab.andersen.service;
 
 import lab.andersen.dao.UserDao;
+import lab.andersen.dto.LoginUserDto;
+import lab.andersen.dto.UserDto;
 import lab.andersen.entity.User;
 import lab.andersen.exception.DaoException;
 import lab.andersen.exception.ServiceException;
@@ -40,6 +42,15 @@ public class UserService {
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
+    }
+
+    public Optional<UserDto> login(String name, String password) {
+        return userDao.findByNameAndPassword(name, password)
+                .map(it -> new UserDto(
+                        it.getSurname(),
+                        it.getName(),
+                        it.getAge()
+                ));
     }
 
     public void update(User user) throws ServiceException {

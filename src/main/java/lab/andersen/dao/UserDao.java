@@ -4,6 +4,7 @@ import lab.andersen.entity.User;
 import lab.andersen.exception.DaoException;
 import lab.andersen.exception.UserNotFoundException;
 import lab.andersen.util.ConnectionManager;
+import lombok.SneakyThrows;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,6 +18,9 @@ public class UserDao {
     private static final String CREATE_USER = "INSERT INTO users(age, surname, name) VALUES (?, ?, ?)";
     private static final String UPDATE_USER = "UPDATE users SET age = ?, surname = ?, name = ? WHERE id = ?";
     private static final String DELETE_USER = "DELETE FROM users WHERE id = ?";
+    private static final String FIND_BY_NAME_AND_PASSWORD = "SELECT id, name, password, surname, age " +
+                                                            "FROM users " +
+                                                            "WHERE name = ? and password = ?";
 
     public List<User> findAll() throws DaoException {
         List<User> allUsers = new ArrayList<>();
@@ -30,7 +34,8 @@ public class UserDao {
                         resultSet.getInt("id"),
                         resultSet.getInt("age"),
                         resultSet.getString("surname"),
-                        resultSet.getString("name")
+                        resultSet.getString("name"),
+                        resultSet.getString("password")
                 );
                 allUsers.add(user);
             }
@@ -38,6 +43,31 @@ public class UserDao {
             throw new DaoException(e);
         }
         return allUsers;
+    }
+
+    @SneakyThrows
+    public Optional<User> findByNameAndPassword(String name, String password) {
+        try (
+                Connection connection = ConnectionManager.open();
+                PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_NAME_AND_PASSWORD)
+        ) {
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, password);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            User user = null;
+
+            if (resultSet.next()) {
+                user = new User(
+                        resultSet.getObject("id", Integer.class),
+                        resultSet.getObject("age", Integer.class),
+                        resultSet.getObject("surname", String.class),
+                        resultSet.getObject("name", String.class),
+                        resultSet.getObject("password", String.class)
+                );
+            }
+            return Optional.ofNullable(user);
+        }
     }
 
     public Integer create(User user) {
@@ -67,7 +97,8 @@ public class UserDao {
                         resultSet.getInt("id"),
                         resultSet.getInt("age"),
                         resultSet.getString("surname"),
-                        resultSet.getString("name")
+                        resultSet.getString("name"),
+                        resultSet.getString("password")
                 );
             }
         } catch (SQLException e) {
