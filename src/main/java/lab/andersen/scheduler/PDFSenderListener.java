@@ -51,8 +51,8 @@ public class PDFSenderListener implements ServletContextListener {
 
             logger.info("Messages to Telegram and email have been sent");
         });
-        taskExecutor.startExecutionAt(TARGET_HOUR, TARGET_MIN, TARGET_SEC);
-//        taskExecutor.startExecutionRepeat();
+//        taskExecutor.startExecutionAt(TARGET_HOUR, TARGET_MIN, TARGET_SEC);
+        taskExecutor.startExecutionRepeat(5);
 
 //        scheduler = Executors.newSingleThreadScheduledExecutor();
 //        scheduler.scheduleAtFixedRate(() -> {

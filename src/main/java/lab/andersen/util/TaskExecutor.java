@@ -25,13 +25,9 @@ public class TaskExecutor {
         executorService.schedule(taskWrapper, delay, TimeUnit.SECONDS);
     }
 
-//    public void startExecutionRepeat(long seconds) {
-//        Runnable taskWrapper = () -> {
-//            task.execute();
-//            startExecutionAt(targetHour, targetMin, targetSec);
-//        };
-//        executorService.schedule(taskWrapper, seconds, TimeUnit.SECONDS);
-//    }
+    public void startExecutionRepeat(long seconds) {
+        executorService.schedule(task::execute, seconds, TimeUnit.SECONDS);
+    }
 
 
     private long computeNextDelay(int targetHour, int targetMin, int targetSec) {
@@ -49,4 +45,5 @@ public class TaskExecutor {
     public void stop() {
         executorService.shutdownNow();
     }
+
 }
