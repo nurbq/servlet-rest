@@ -27,16 +27,16 @@ public class UsersController extends FrontController {
         String pathInfo = request.getPathInfo();
         String[] split = pathInfo.split("/");
         try (PrintWriter writer = response.getWriter()) {
-            writer.print(pathInfo);
-            writer.print(split.length);
+            writer.write(pathInfo);
+            writer.write(split.length);
             if (split.length < 2) {
                 List<UserDto> all = userService.findAll();
-                writer.print(gson.toJson(all));
+                writer.write(gson.toJson(all));
             } else {
                 Integer userId = Integer.getInteger(split[2]);
                 if (userId != null) {
                     User userById = userService.findById(userId);
-                    writer.print(gson.toJson(userById));
+                    writer.write(gson.toJson(userById));
                 } else {
                     throw new UserNotFoundException("User not found");
                 }
