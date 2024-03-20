@@ -38,6 +38,8 @@ public class UsersController extends FrontController {
             handlePut(request, response, splitPath);
         } else if (method.equalsIgnoreCase(HttpMethods.DELETE.name())) {
             handleDelete(request, response, splitPath);
+        } else {
+            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
         }
     }
 
@@ -51,8 +53,25 @@ public class UsersController extends FrontController {
                 User userById = userService.findById(userId);
                 writer.write(gson.toJson(userById));
             }
-        } catch (RuntimeException e) {
+        } catch (NumberFormatException e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Unable to parse user_id to number");
+        } catch (ServiceException e) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+        }
+    }
+
+    private void handleDelete(HttpServletRequest request, HttpServletResponse response, String[] splitPath) throws IOException {
+        try (PrintWriter writer = response.getWriter()){
+            if (splitPath.length <= 2) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            } else {
+                int id = Integer.parseInt(splitPath[2]);
+                writer.write(id);
+                userService.delete(id);
+                response.setStatus(HttpServletResponse.SC_OK);
+            }
+        } catch (NumberFormatException e) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Unable to parse userId to number");
         } catch (ServiceException e) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
@@ -82,17 +101,5 @@ public class UsersController extends FrontController {
         }
     }
 
-    private void handleDelete(HttpServletRequest request, HttpServletResponse response, String[] splitPath) throws IOException {
-        try {
-            if (splitPath.length <= 2) {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-            } else {
-                int id = Integer.parseInt(splitPath[2]);
-                userService.delete(id);
-                response.setStatus(HttpServletResponse.SC_OK);
-            }
-        } catch (ServiceException | NumberFormatException e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-        }
-    }
+
 }
