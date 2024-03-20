@@ -24,6 +24,9 @@ public class FrontServlet extends HttpServlet {
     private FrontController getController(HttpServletRequest req) {
         try {
             String pathInfo = req.getPathInfo();
+            if (pathInfo == null) {
+                return new UnknownController();
+            }
             String[] split = pathInfo.split("/");
             if (split.length < 1) {
                 return new UnknownController();
