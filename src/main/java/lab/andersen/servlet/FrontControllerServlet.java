@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/front")
+@WebServlet("/front/*")
 public class FrontControllerServlet extends HttpServlet {
 
     @Override
@@ -22,12 +22,18 @@ public class FrontControllerServlet extends HttpServlet {
     private FrontCommand getCommand(HttpServletRequest req) {
         try {
             String commandClassName = req.getParameter("command");
+            String pathInfo = req.getPathInfo();
+            String[] split = pathInfo.split("/");
+            if (split.length < 1) {
+                return new UnknownCommand();
+            }
             if (commandClassName == null || commandClassName.isEmpty()) {
                 return new UnknownCommand();
             }
+            String className = split[1];
             Class<?> type = Class.forName(String.format(
                     "lab.andersen.controller."
-                    + "%sCommand", commandClassName));
+                    + "%sCommand", className));
 
             Object commandObject = type.getDeclaredConstructor().newInstance();
 

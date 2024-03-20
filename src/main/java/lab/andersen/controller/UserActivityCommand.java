@@ -19,9 +19,13 @@ public class UserActivityCommand extends FrontCommand {
     @SneakyThrows
     @Override
     public void process() {
-        List<UserActivity> allUsersActivities = userActivityService.findAllUsersActivities();
+
         response.setContentType("application/json");
         response.setContentType(StandardCharsets.UTF_8.name());
+        String method = request.getMethod();
+
+
+        List<UserActivity> allUsersActivities = userActivityService.findAllUsersActivities();
         try (PrintWriter writer = response.getWriter()) {
             writer.print(gson.toJson(allUsersActivities));
         }
