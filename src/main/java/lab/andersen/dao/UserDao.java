@@ -109,6 +109,7 @@ public class UserDao {
         return Optional.ofNullable(user);
     }
 
+
     public void update(User entity) throws DaoException {
         try (Connection connection = ConnectionManager.open();
              PreparedStatement statement = connection.prepareStatement(UPDATE_USER)
@@ -117,8 +118,8 @@ public class UserDao {
                 statement.setInt(1, entity.getAge());
                 statement.setString(2, entity.getSurname());
                 statement.setString(3, entity.getName());
-                statement.setInt(4, entity.getId());
-                statement.setString(5, entity.getPassword());
+                statement.setString(4, entity.getPassword());
+                statement.setInt(5, entity.getId());
                 statement.executeUpdate();
             } else {
                 throw new UserNotFoundException(String.format("User with id=%d doesn't exist", entity.getId()));
