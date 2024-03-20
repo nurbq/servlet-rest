@@ -22,7 +22,7 @@ import java.util.StringTokenizer;
 public class AuthFilter extends HttpFilter {
 
     private final UserService userService = new UserService(new UserDao());
-    private static final Set<String> PUBLIC_PATH = Set.of("/register", "/front/register");
+    private static final Set<String> PUBLIC_PATH = Set.of("/Register", "/front/Register");
 
 
     @Override
