@@ -30,6 +30,7 @@ public class AuthFilter extends HttpFilter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
         String requestURI = ((HttpServletRequest) req).getRequestURI();
+        response.getWriter().write(requestURI);
 
         if (isPublicPath(requestURI)) {
             chain.doFilter(request, response);
