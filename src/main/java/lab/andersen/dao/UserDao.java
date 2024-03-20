@@ -118,6 +118,7 @@ public class UserDao {
                 statement.setString(2, entity.getSurname());
                 statement.setString(3, entity.getName());
                 statement.setInt(4, entity.getId());
+                statement.setString(5, entity.getPassword());
                 statement.executeUpdate();
             } else {
                 throw new UserNotFoundException(String.format("User with id=%d doesn't exist", entity.getId()));
