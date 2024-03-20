@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public abstract class FrontCommand {
+public abstract class FrontController {
     protected ServletContext context;
     protected HttpServletRequest request;
     protected HttpServletResponse response;

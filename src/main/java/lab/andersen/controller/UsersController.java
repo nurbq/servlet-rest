@@ -1,18 +1,15 @@
 package lab.andersen.controller;
 
-import lab.andersen.servlet.FrontCommand;
+import lab.andersen.servlet.FrontController;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
 
-public class UserCommand extends FrontCommand {
+public class UsersController extends FrontController {
     @Override
-    public void process() throws IOException {
-        response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+    public void process() throws ServletException, IOException {
         response.setContentType("application/json");
-
         try (PrintWriter writer = response.getWriter()) {
             writer.print(request.getPathInfo());
         }

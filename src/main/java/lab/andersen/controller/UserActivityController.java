@@ -4,14 +4,14 @@ import com.google.gson.Gson;
 import lab.andersen.dao.UserActivityDao;
 import lab.andersen.entity.UserActivity;
 import lab.andersen.service.UserActivityService;
-import lab.andersen.servlet.FrontCommand;
+import lab.andersen.servlet.FrontController;
 import lombok.SneakyThrows;
 
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-public class UserActivityCommand extends FrontCommand {
+public class UserActivityController extends FrontController {
 
     private final UserActivityService userActivityService = new UserActivityService(new UserActivityDao());
     private final Gson gson = new Gson();
