@@ -132,7 +132,6 @@ public class UserActivityDao {
                 statement.setString(2, entity.getDescription());
                 statement.setTimestamp(3, entity.getDateTime());
                 statement.setInt(4, entity.getId());
-                statement.executeUpdate();
             } else {
                 throw new UserActivityNotFoundException("user activity with id=%d doesn't exist".formatted(entity.getId()));
             }

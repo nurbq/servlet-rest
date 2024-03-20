@@ -85,7 +85,7 @@ public class UsersController extends FrontController {
             User user = gson.fromJson(userLines, User.class);
             Integer userId = userService.create(user);
 
-            writer.write(userId);
+            writer.print(userId);
             response.setStatus(HttpServletResponse.SC_CREATED);
         }
     }
