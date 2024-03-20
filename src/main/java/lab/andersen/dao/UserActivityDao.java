@@ -112,11 +112,11 @@ public class UserActivityDao {
         return Optional.ofNullable(userActivity);
     }
 
-    public void create(UserActivity entity) throws DaoException {
+    public void create(Integer userId, String description) throws DaoException {
         try (Connection connection = ConnectionManager.open();
              PreparedStatement statement = connection.prepareStatement(CREATE_USER_ACTIVITY)) {
-            statement.setInt(1, entity.getUserId());
-            statement.setString(2, entity.getDescription());
+            statement.setInt(1, userId);
+            statement.setString(2, description);
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException(e);

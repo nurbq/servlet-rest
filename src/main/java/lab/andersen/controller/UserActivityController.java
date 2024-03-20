@@ -1,7 +1,9 @@
 package lab.andersen.controller;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import lab.andersen.dao.UserActivityDao;
+import lab.andersen.dto.CreateUserActivityDto;
 import lab.andersen.dto.enums.HttpMethods;
 import lab.andersen.entity.UserActivity;
 import lab.andersen.exception.ServiceException;
@@ -14,6 +16,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +25,9 @@ import static javax.servlet.http.HttpServletResponse.SC_METHOD_NOT_ALLOWED;
 public class UserActivityController extends FrontController {
 
     private final UserActivityService userActivityService = new UserActivityService(new UserActivityDao());
-    private final Gson gson = new Gson();
+    private final Gson gson = new GsonBuilder()
+            .setDateFormat("yyyy-MM-dd hh:mm:ss.S")
+            .create();
 
     @Override
     public void process() throws IOException {
@@ -85,7 +90,7 @@ public class UserActivityController extends FrontController {
                 PrintWriter writer = response.getWriter()
         ) {
             String userActivityLines = reader.lines().collect(Collectors.joining());
-            UserActivity user = gson.fromJson(userActivityLines, UserActivity.class);
+            CreateUserActivityDto user = gson.fromJson(userActivityLines, CreateUserActivityDto.class);
             userActivityService.create(user);
 
             response.setStatus(HttpServletResponse.SC_CREATED);

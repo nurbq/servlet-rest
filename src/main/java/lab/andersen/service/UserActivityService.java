@@ -1,6 +1,7 @@
 package lab.andersen.service;
 
 import lab.andersen.dao.UserActivityDao;
+import lab.andersen.dto.CreateUserActivityDto;
 import lab.andersen.entity.UserActivity;
 import lab.andersen.entity.UserActivityShort;
 import lab.andersen.exception.DaoException;
@@ -43,9 +44,9 @@ public class UserActivityService {
         }
     }
 
-    public void create(UserActivity userActivity) throws ServiceException {
+    public void create(CreateUserActivityDto userActivity) throws ServiceException {
         try {
-            userActivityDao.create(userActivity);
+            userActivityDao.create(userActivity.getUserId(), userActivity.getDescription());
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
