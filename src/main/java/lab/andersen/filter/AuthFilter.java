@@ -30,7 +30,6 @@ public class AuthFilter extends HttpFilter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
         String requestURI = ((HttpServletRequest) req).getRequestURI();
-        response.getWriter().write(requestURI);
 
         if (isPublicPath(requestURI)) {
             chain.doFilter(request, response);
@@ -66,6 +65,6 @@ public class AuthFilter extends HttpFilter {
     }
 
     private boolean isPublicPath(String requestURI) {
-        return PUBLIC_PATH.contains(requestURI);
+        return PUBLIC_PATH.stream().anyMatch(requestURI::contains);
     }
 }
