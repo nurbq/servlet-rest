@@ -27,6 +27,7 @@ public class UserActivityDao {
                                                             "         left join users u on ua.user_id = u.id " +
                                                             "WHERE DATE(date_time) = CURRENT_DATE";
 
+
     public List<UserActivity> findAll() {
         List<UserActivity> activities = new ArrayList<>();
         try (

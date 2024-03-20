@@ -1,4 +1,4 @@
-package lab.andersen.servlet;
+package lab.andersen.filter;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
