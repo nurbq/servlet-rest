@@ -15,7 +15,7 @@ public class UserDao {
 
     private static final String FIND_ALL_USERS = "SELECT id, age, surname, name, password FROM users order by id;";
     private static final String FIND_USER_BY_ID = "SELECT id, age, surname, name, password FROM users WHERE id = ?";
-    private static final String CREATE_USER = "INSERT INTO users(age, surname, name) VALUES (?, ?, ?)";
+    private static final String CREATE_USER = "INSERT INTO users(age, surname, name, password) VALUES (?, ?, ?, ?)";
     private static final String UPDATE_USER = "UPDATE users SET age = ?, surname = ?, name = ?, password = ? WHERE id = ?";
     private static final String DELETE_USER = "DELETE FROM users WHERE id = ?";
     private static final String FIND_BY_NAME_AND_PASSWORD = "SELECT id, name, password, surname, age " +
@@ -78,6 +78,7 @@ public class UserDao {
             preparedStatement.setInt(1, user.getAge());
             preparedStatement.setString(2, user.getSurname());
             preparedStatement.setString(3, user.getName());
+            preparedStatement.setString(4, user.getPassword());
 
             return preparedStatement.executeUpdate();
         } catch (SQLException e) {
