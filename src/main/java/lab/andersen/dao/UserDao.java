@@ -87,7 +87,7 @@ public class UserDao {
     }
 
 
-    public static Optional<User> findById(int id) throws DaoException {
+    public Optional<User> findById(int id) throws DaoException {
         User user = null;
         try (Connection connection = ConnectionManager.open();
              PreparedStatement statement = connection.prepareStatement(FIND_USER_BY_ID)

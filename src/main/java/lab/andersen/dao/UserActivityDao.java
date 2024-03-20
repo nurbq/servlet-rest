@@ -1,8 +1,8 @@
 package lab.andersen.dao;
 
 import lab.andersen.entity.UserActivity;
-import lab.andersen.entity.UserActivityExtended;
-import lab.andersen.entity.UserActivityShort;
+import lab.andersen.dto.UserActivityExtendedDto;
+import lab.andersen.dto.UserActivityShortDto;
 import lab.andersen.exception.DaoException;
 import lab.andersen.exception.UserActivityNotFoundException;
 import lab.andersen.util.ConnectionManager;
@@ -50,15 +50,15 @@ public class UserActivityDao {
         return activities;
     }
 
-    public List<UserActivityShort> findAllToday() throws DaoException {
-        List<UserActivityShort> activities = new ArrayList<>();
+    public List<UserActivityShortDto> findAllToday() throws DaoException {
+        List<UserActivityShortDto> activities = new ArrayList<>();
         try (
                 Connection connection = ConnectionManager.open();
                 PreparedStatement statement = connection.prepareStatement(FIND_ALL_TODAY_ACTIVITIES)
         ) {
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                UserActivityShort userActivity = new UserActivityShort(
+                UserActivityShortDto userActivity = new UserActivityShortDto(
                         rs.getString("name"),
                         rs.getString("description"),
                         rs.getTimestamp("date_time").toLocalDateTime()
@@ -71,13 +71,13 @@ public class UserActivityDao {
         return activities;
     }
 
-    public List<UserActivityExtended> findAllAddUsername() throws DaoException {
-        List<UserActivityExtended> activities = new ArrayList<>();
+    public List<UserActivityExtendedDto> findAllAddUsername() throws DaoException {
+        List<UserActivityExtendedDto> activities = new ArrayList<>();
         try (Connection connection = ConnectionManager.open();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_WITH_USERNAMES)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                UserActivityExtended userActivity = new UserActivityExtended(
+                UserActivityExtendedDto userActivity = new UserActivityExtendedDto(
                         resultSet.getInt("id"),
                         resultSet.getInt("user_id"),
                         resultSet.getString("description"),
@@ -112,12 +112,13 @@ public class UserActivityDao {
         return Optional.ofNullable(userActivity);
     }
 
-    public void create(Integer userId, String description) throws DaoException {
+    public int create(Integer userId, String description) throws DaoException {
         try (Connection connection = ConnectionManager.open();
              PreparedStatement statement = connection.prepareStatement(CREATE_USER_ACTIVITY)) {
             statement.setInt(1, userId);
             statement.setString(2, description);
-            statement.executeUpdate();
+
+            return statement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException(e);
         }

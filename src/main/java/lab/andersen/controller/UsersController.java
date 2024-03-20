@@ -99,6 +99,4 @@ public class UsersController extends FrontController {
             throw new RuntimeException(e);
         }
     }
-
-
 }

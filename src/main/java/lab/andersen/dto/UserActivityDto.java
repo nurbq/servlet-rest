@@ -1,17 +1,17 @@
-package lab.andersen.entity;
+package lab.andersen.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserActivityShort {
+public class UserActivityDto {
 
-    private String userName;
+    private int userId;
     private String description;
-    private LocalDateTime dateTime;
+    private Timestamp dateTime;
 }

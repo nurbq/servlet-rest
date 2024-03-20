@@ -9,9 +9,8 @@ import java.io.PrintWriter;
 public class UnknownController extends FrontController {
     @Override
     public void process() throws ServletException, IOException {
-//        forward("unknown");
         try (PrintWriter writer = response.getWriter()) {
-            writer.print("Unknown page");
+            writer.print("Unknown url");
         }
     }
 }

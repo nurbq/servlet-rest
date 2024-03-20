@@ -2,14 +2,16 @@ package lab.andersen.service;
 
 import lab.andersen.dao.UserActivityDao;
 import lab.andersen.dto.CreateUserActivityDto;
+import lab.andersen.dto.UserActivityDto;
+import lab.andersen.dto.UserActivityShortDto;
 import lab.andersen.entity.UserActivity;
-import lab.andersen.entity.UserActivityShort;
 import lab.andersen.exception.DaoException;
 import lab.andersen.exception.ServiceException;
 import lab.andersen.exception.UserActivityNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class UserActivityService {
 
@@ -19,7 +21,7 @@ public class UserActivityService {
         this.userActivityDao = userActivityDao;
     }
 
-    public List<UserActivityShort> findAllTodayActivities() throws ServiceException {
+    public List<UserActivityShortDto> findAllTodayActivities() throws ServiceException {
         try {
             return userActivityDao.findAllToday();
         } catch (DaoException e) {
@@ -27,26 +29,36 @@ public class UserActivityService {
         }
     }
 
-    public List<UserActivity> findAllUsersActivities() {
-        return userActivityDao.findAll();
+    public List<UserActivityDto> findAllUsersActivities() {
+        return userActivityDao.findAll()
+                .stream()
+                .map(userActivity -> new UserActivityDto(
+                        userActivity.getUserId(),
+                        userActivity.getDescription(),
+                        userActivity.getDateTime()))
+                .collect(Collectors.toList());
     }
 
-    public UserActivity findById(int id) throws ServiceException {
+    public UserActivityDto findById(int id) throws ServiceException {
         try {
             Optional<UserActivity> optionalUserActivity = userActivityDao.findById(id);
             if (optionalUserActivity.isPresent()) {
-                return optionalUserActivity.get();
+                return optionalUserActivity.map(it -> new UserActivityDto(
+                                it.getUserId(),
+                                it.getDescription(),
+                                it.getDateTime()))
+                        .get();
             } else {
-                throw new UserActivityNotFoundException("user activity with id=%d doesn't exist".formatted(id));
+                throw new UserActivityNotFoundException("user activity with id=" + id + " doesn't exist");
             }
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
     }
 
-    public void create(CreateUserActivityDto userActivity) throws ServiceException {
+    public int create(CreateUserActivityDto userActivity) throws ServiceException {
         try {
-            userActivityDao.create(userActivity.getUserId(), userActivity.getDescription());
+            return userActivityDao.create(userActivity.getUserId(), userActivity.getDescription());
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

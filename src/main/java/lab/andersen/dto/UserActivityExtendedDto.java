@@ -1,4 +1,4 @@
-package lab.andersen.entity;
+package lab.andersen.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserActivityExtended {
+public class UserActivityExtendedDto {
 
     private int id;
     private int userId;

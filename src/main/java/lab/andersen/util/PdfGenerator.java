@@ -3,7 +3,7 @@ package lab.andersen.util;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfWriter;
 import lab.andersen.dao.UserActivityDao;
-import lab.andersen.entity.UserActivityShort;
+import lab.andersen.dto.UserActivityShortDto;
 import lab.andersen.service.UserActivityService;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -31,7 +31,7 @@ public final class PdfGenerator {
     @SneakyThrows
     public void generate() {
 
-        List<UserActivityShort> allTodayActivitiesFromDb = userActivityService.findAllTodayActivities();
+        List<UserActivityShortDto> allTodayActivitiesFromDb = userActivityService.findAllTodayActivities();
 
         Path pdfFullPath = Path.of(BASE_PATH, LocalDate.now() + ".pdf");
         Files.createDirectories(pdfFullPath.getParent());

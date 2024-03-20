@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lab.andersen.dao.UserActivityDao;
 import lab.andersen.dto.CreateUserActivityDto;
+import lab.andersen.dto.UserActivityDto;
 import lab.andersen.dto.enums.HttpMethods;
 import lab.andersen.entity.UserActivity;
 import lab.andersen.exception.ServiceException;
@@ -53,11 +54,11 @@ public class UserActivityController extends FrontController {
     private void handleGet(HttpServletRequest request, HttpServletResponse response, String[] splitPath) throws IOException {
         try (PrintWriter writer = response.getWriter()) {
             if (splitPath.length <= 2) {
-                List<UserActivity> allUsersActivities = userActivityService.findAllUsersActivities();
+                List<UserActivityDto> allUsersActivities = userActivityService.findAllUsersActivities();
                 writer.write(gson.toJson(allUsersActivities));
             } else {
                 int userActivityId = Integer.parseInt(splitPath[2]);
-                UserActivity userActivity = userActivityService.findById(userActivityId);
+                UserActivityDto userActivity = userActivityService.findById(userActivityId);
                 writer.write(gson.toJson(userActivity));
             }
         } catch (NumberFormatException e) {
@@ -91,8 +92,9 @@ public class UserActivityController extends FrontController {
         ) {
             String userActivityLines = reader.lines().collect(Collectors.joining());
             CreateUserActivityDto user = gson.fromJson(userActivityLines, CreateUserActivityDto.class);
-            userActivityService.create(user);
+            int id = userActivityService.create(user);
 
+            writer.print(id);
             response.setStatus(HttpServletResponse.SC_CREATED);
         } catch (ServiceException e) {
             throw new RuntimeException(e);
