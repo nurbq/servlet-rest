@@ -20,7 +20,6 @@ public class UsersController extends FrontController {
     private final UserService userService = new UserService(new UserDao());
     private final Gson gson = new Gson();
 
-    @SneakyThrows
     @Override
     public void process() throws ServletException, IOException {
         response.setContentType("application/json");
@@ -28,8 +27,7 @@ public class UsersController extends FrontController {
         String[] split = pathInfo.split("/");
         try (PrintWriter writer = response.getWriter()) {
 //            writer.write(pathInfo);
-            writer.write(split.length);
-            writer.write(Arrays.toString(split));
+            writer.write(split[2]);
             if (split.length <= 2) {
                 List<UserDto> all = userService.findAll();
                 writer.write(gson.toJson(all));
