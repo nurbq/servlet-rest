@@ -66,7 +66,7 @@ public class UsersController extends FrontController {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST);
             } else {
                 int id = Integer.parseInt(splitPath[2]);
-                writer.write(id);
+                writer.print(id);
                 userService.delete(id);
                 response.setStatus(HttpServletResponse.SC_OK);
             }
