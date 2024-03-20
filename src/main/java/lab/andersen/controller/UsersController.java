@@ -12,6 +12,7 @@ import lombok.SneakyThrows;
 import javax.servlet.ServletException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.List;
 
 public class UsersController extends FrontController {
@@ -24,12 +25,14 @@ public class UsersController extends FrontController {
     public void process() throws ServletException, IOException {
         response.setContentType("application/json");
         try (PrintWriter writer = response.getWriter()) {
+            writer.print(request.getPathInfo());
             String pathInfo = request.getPathInfo();
             if (pathInfo == null || pathInfo.equals("/")) {
                 List<UserDto> all = userService.findAll();
                 writer.print(gson.toJson(all));
             } else {
                 String[] split = pathInfo.split("/");
+                System.out.println(Arrays.toString(split));
                 Integer s = Integer.getInteger(split[2]);
                 if (s != null) {
                     User userById = userService.findById(s);
