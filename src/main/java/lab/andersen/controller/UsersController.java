@@ -27,6 +27,8 @@ public class UsersController extends FrontController {
         String pathInfo = request.getPathInfo();
         String[] split = pathInfo.split("/");
         try (PrintWriter writer = response.getWriter()) {
+            writer.print(pathInfo);
+            writer.print(split.length);
             if (split.length < 2) {
                 List<UserDto> all = userService.findAll();
                 writer.print(gson.toJson(all));
