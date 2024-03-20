@@ -24,18 +24,16 @@ public class UsersController extends FrontController {
     @Override
     public void process() throws ServletException, IOException {
         response.setContentType("application/json");
+        String pathInfo = request.getPathInfo();
+        String[] split = pathInfo.split("/");
         try (PrintWriter writer = response.getWriter()) {
-            writer.print(request.getPathInfo());
-            String pathInfo = request.getPathInfo();
-            if (pathInfo == null || pathInfo.equals("/")) {
+            if (split.length < 2) {
                 List<UserDto> all = userService.findAll();
                 writer.print(gson.toJson(all));
             } else {
-                String[] split = pathInfo.split("/");
-                System.out.println(Arrays.toString(split));
-                Integer s = Integer.getInteger(split[2]);
-                if (s != null) {
-                    User userById = userService.findById(s);
+                Integer userId = Integer.getInteger(split[2]);
+                if (userId != null) {
+                    User userById = userService.findById(userId);
                     writer.print(gson.toJson(userById));
                 } else {
                     throw new UserNotFoundException("User not found");
