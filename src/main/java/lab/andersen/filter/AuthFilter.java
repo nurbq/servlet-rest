@@ -60,6 +60,7 @@ public class AuthFilter extends HttpFilter {
 
     private void unauthorized(HttpServletResponse response, String message) throws IOException {
         response.sendError(401, message);
+        response.sendRedirect("/register");
     }
 
     private boolean isPublicPath(String requestURI) {
