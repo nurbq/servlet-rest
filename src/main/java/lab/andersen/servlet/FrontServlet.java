@@ -21,6 +21,28 @@ public class FrontServlet extends HttpServlet {
         controller.process();
     }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        FrontController controller = getController(req);
+        controller.init(getServletContext(), req, resp);
+        controller.process();
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        FrontController controller = getController(req);
+        controller.init(getServletContext(), req, resp);
+        controller.process();
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        FrontController controller = getController(req);
+        controller.init(getServletContext(), req, resp);
+        controller.process();
+    }
+
+
     private FrontController getController(HttpServletRequest req) {
         try {
             String pathInfo = req.getPathInfo();
