@@ -14,9 +14,9 @@ import java.util.Optional;
 public class UserDao {
 
     private static final String FIND_ALL_USERS = "SELECT id, age, surname, name, password FROM users order by id;";
-    private static final String FIND_USER_BY_ID = "SELECT id, age, surname, name FROM users WHERE id = ?";
+    private static final String FIND_USER_BY_ID = "SELECT id, age, surname, name, password FROM users WHERE id = ?";
     private static final String CREATE_USER = "INSERT INTO users(age, surname, name) VALUES (?, ?, ?)";
-    private static final String UPDATE_USER = "UPDATE users SET age = ?, surname = ?, name = ? WHERE id = ?";
+    private static final String UPDATE_USER = "UPDATE users SET age = ?, surname = ?, name = ?, password = ? WHERE id = ?";
     private static final String DELETE_USER = "DELETE FROM users WHERE id = ?";
     private static final String FIND_BY_NAME_AND_PASSWORD = "SELECT id, name, password, surname, age " +
                                                             "FROM users " +
@@ -85,7 +85,8 @@ public class UserDao {
         }
     }
 
-    public Optional<User> findById(int id) throws DaoException {
+
+    public static Optional<User> findById(int id) throws DaoException {
         User user = null;
         try (Connection connection = ConnectionManager.open();
              PreparedStatement statement = connection.prepareStatement(FIND_USER_BY_ID)
