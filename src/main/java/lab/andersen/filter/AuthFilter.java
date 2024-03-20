@@ -66,6 +66,6 @@ public class AuthFilter extends HttpFilter {
     }
 
     private boolean isPublicPath(String requestURI) {
-        return PUBLIC_PATH.stream().anyMatch(requestURI::startsWith);
+        return PUBLIC_PATH.contains(requestURI);
     }
 }
