@@ -41,7 +41,6 @@ public class FrontServlet extends HttpServlet {
         controller.process();
     }
 
-
     private FrontController getController(HttpServletRequest req) {
         try {
             String pathInfo = req.getPathInfo();
@@ -62,7 +61,6 @@ public class FrontServlet extends HttpServlet {
             } else {
                 throw new IllegalArgumentException("Invalid controller class: " + className);
             }
-
         } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException |
                  InvocationTargetException e) {
             throw new RuntimeException(e);

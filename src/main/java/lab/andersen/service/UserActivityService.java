@@ -26,7 +26,7 @@ public class UserActivityService {
         }
     }
 
-    public List<UserActivity> findAllUsersActivities() throws ServiceException {
+    public List<UserActivity> findAllUsersActivities() {
         return userActivityDao.findAll();
     }
 

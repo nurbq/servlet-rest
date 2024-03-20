@@ -9,7 +9,6 @@ import lab.andersen.exception.ServiceException;
 import lab.andersen.service.UserService;
 import lab.andersen.servlet.FrontController;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
@@ -24,7 +23,7 @@ public class UsersController extends FrontController {
     private final Gson gson = new Gson();
 
     @Override
-    public void process() throws ServletException, IOException {
+    public void process() throws IOException {
         response.setContentType("application/json");
         String method = request.getMethod();
         String pathInfo = request.getPathInfo();
@@ -61,7 +60,7 @@ public class UsersController extends FrontController {
     }
 
     private void handleDelete(HttpServletRequest request, HttpServletResponse response, String[] splitPath) throws IOException {
-        try (PrintWriter writer = response.getWriter()){
+        try (PrintWriter writer = response.getWriter()) {
             if (splitPath.length <= 2) {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST);
             } else {
