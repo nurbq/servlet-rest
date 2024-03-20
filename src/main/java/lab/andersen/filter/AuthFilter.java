@@ -60,6 +60,7 @@ public class AuthFilter extends HttpFilter {
 
     private void unauthorized(HttpServletResponse response, String message) throws IOException {
         response.sendError(401, message);
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.sendRedirect("/register");
     }
 

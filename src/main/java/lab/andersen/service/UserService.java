@@ -1,7 +1,6 @@
 package lab.andersen.service;
 
 import lab.andersen.dao.UserDao;
-import lab.andersen.dto.LoginUserDto;
 import lab.andersen.dto.UserDto;
 import lab.andersen.entity.User;
 import lab.andersen.exception.DaoException;
