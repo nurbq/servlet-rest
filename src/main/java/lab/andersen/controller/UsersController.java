@@ -34,12 +34,13 @@ public class UsersController extends FrontController {
                 writer.write(gson.toJson(all));
             } else {
                 Integer userId = Integer.getInteger(split[2]);
-                if (userId != null) {
-                    User userById = userService.findById(userId);
-                    writer.write(gson.toJson(userById));
-                } else {
-                    throw new UserNotFoundException("User not found");
-                }
+                writer.write(userId);
+//                if (userId != null) {
+//                    User userById = userService.findById(userId);
+//                    writer.write(gson.toJson(userById));
+//                } else {
+//                    throw new UserNotFoundException("User not found");
+//                }
             }
         }
     }
