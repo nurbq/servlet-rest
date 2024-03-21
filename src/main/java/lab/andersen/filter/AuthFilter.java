@@ -47,6 +47,7 @@ public class AuthFilter extends HttpFilter {
                             String password = credentials.substring(p + 1).trim();
                             Optional<UserDto> user = userService.login(username, password);
                             if (user.isPresent()) {
+                                request.setAttribute("authenticatedUsername", username);
                                 chain.doFilter(request, response);
                             } else {
                                 unauthorized(response, "Invalid user credentials");
