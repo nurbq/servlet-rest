@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.stream.Collectors;
 
 public class RegisterController extends FrontController {
@@ -22,13 +23,16 @@ public class RegisterController extends FrontController {
         String method = request.getMethod();
         String pathInfo = request.getPathInfo();
         String[] splitPath = pathInfo.split("/");
-        try (BufferedReader reader = request.getReader()) {
+        try (
+                BufferedReader reader = request.getReader();
+                PrintWriter writer = response.getWriter()
+        ) {
             if (method.equalsIgnoreCase(HttpMethods.POST.name())) {
                 if (splitPath.length <= 2) {
                     String userLines = reader.lines().collect(Collectors.joining());
                     User user = gson.fromJson(userLines, User.class);
                     Integer i = userService.create(user);
-                    response.sendRedirect("/UserActivity/" + i);
+                    writer.print(i);
                 } else {
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 }

@@ -54,14 +54,16 @@ public class AuthFilter extends HttpFilter {
                         }
                     }
                 }
+            } else {
+                unauthorized(response, "No user credentials");
             }
         }
     }
 
     private void unauthorized(HttpServletResponse response, String message) throws IOException {
+        response.setHeader("WWW-Authenticate", "Basic=\"" + "Protected" + "\"");
         response.sendError(401, message);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.sendRedirect("/register");
     }
 
     private boolean isPublicPath(String requestURI) {
