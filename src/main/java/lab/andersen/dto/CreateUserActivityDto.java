@@ -9,6 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateUserActivityDto {
 
-    private Integer userId;
     private String description;
 }

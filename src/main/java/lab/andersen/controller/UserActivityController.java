@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import lab.andersen.dao.UserActivityDao;
 import lab.andersen.dto.CreateUserActivityDto;
 import lab.andersen.dto.UserActivityDto;
+import lab.andersen.dto.UserActivityShortDto;
 import lab.andersen.dto.enums.HttpMethods;
 import lab.andersen.entity.UserActivity;
 import lab.andersen.exception.ServiceException;
@@ -51,10 +52,11 @@ public class UserActivityController extends FrontController {
     }
 
     private void handleGet(HttpServletRequest request, HttpServletResponse response, String[] splitPath) throws IOException {
+        String authenticatedUsername = (String) request.getAttribute("authenticatedUsername");
         try (PrintWriter writer = response.getWriter()) {
             if (splitPath.length <= 2) {
-                List<UserActivityDto> allUsersActivities = userActivityService.findAllUsersActivities();
-                writer.write(gson.toJson(allUsersActivities));
+                List<UserActivityShortDto> activityByName = userActivityService.findAllByName(authenticatedUsername);
+                writer.write(gson.toJson(activityByName));
             } else {
                 int userActivityId = Integer.parseInt(splitPath[2]);
                 UserActivityDto userActivity = userActivityService.findById(userActivityId);
@@ -85,13 +87,14 @@ public class UserActivityController extends FrontController {
     }
 
     private void handlePost(HttpServletRequest request, HttpServletResponse response, String[] splitPath) throws IOException {
+        String authenticatedUsername = (String) request.getAttribute("authenticatedUsername");
         try (
                 BufferedReader reader = request.getReader();
                 PrintWriter writer = response.getWriter()
         ) {
             String userActivityLines = reader.lines().collect(Collectors.joining());
             CreateUserActivityDto user = gson.fromJson(userActivityLines, CreateUserActivityDto.class);
-            int id = userActivityService.create(user);
+            int id = userActivityService.create(authenticatedUsername, user);
 
             writer.print(id);
             response.setStatus(HttpServletResponse.SC_CREATED);

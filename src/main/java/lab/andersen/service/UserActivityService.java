@@ -56,9 +56,9 @@ public class UserActivityService {
         }
     }
 
-    public int create(CreateUserActivityDto userActivity) throws ServiceException {
+    public int create(String name, CreateUserActivityDto userActivity) throws ServiceException {
         try {
-            return userActivityDao.create(userActivity.getUserId(), userActivity.getDescription());
+            return userActivityDao.create(name, userActivity.getDescription());
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -78,5 +78,9 @@ public class UserActivityService {
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
+    }
+
+    public List<UserActivityShortDto> findAllByName(String name) {
+        return userActivityDao.findAllByName(name);
     }
 }

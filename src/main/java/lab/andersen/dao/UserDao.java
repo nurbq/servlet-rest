@@ -21,6 +21,7 @@ public class UserDao {
     private static final String FIND_BY_NAME_AND_PASSWORD = "SELECT id, name, password, surname, age " +
                                                             "FROM users " +
                                                             "WHERE name = ? and password = ?";
+    private static final String FIND_ID_BY_NAME = "SELECT id FROM users WHERE name = ?";
 
     public List<User> findAll() throws DaoException {
         List<User> allUsers = new ArrayList<>();
@@ -137,5 +138,23 @@ public class UserDao {
         } catch (SQLException e) {
             throw new DaoException(e);
         }
+    }
+
+    public Integer findIdByName(String name) {
+        Integer userId = null;
+        try (Connection connection = ConnectionManager.open();
+             PreparedStatement statement = connection.prepareStatement(FIND_ID_BY_NAME)
+        ) {
+            statement.setString(1, name);
+
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                userId = resultSet.getInt("id");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return userId;
     }
 }

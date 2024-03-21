@@ -1,8 +1,8 @@
 package lab.andersen.dao;
 
-import lab.andersen.entity.UserActivity;
 import lab.andersen.dto.UserActivityExtendedDto;
 import lab.andersen.dto.UserActivityShortDto;
+import lab.andersen.entity.UserActivity;
 import lab.andersen.exception.DaoException;
 import lab.andersen.exception.UserActivityNotFoundException;
 import lab.andersen.util.ConnectionManager;
@@ -22,11 +22,17 @@ public class UserActivityDao {
             "UPDATE users_activities SET user_id = ?, description = ?, date_time = ? WHERE id = ?;";
     private static final String DELETE_USER_ACTIVITY = "DELETE FROM users_activities WHERE id = ?";
 
-    private static final String FIND_ALL_TODAY_ACTIVITIES = "SELECT u.name, ua.description, ua.date_time " +
+    private static final String FIND_ALL_TODAY_ACTIVITIES = "SELECT ua.id, u.name, ua.description, ua.date_time " +
                                                             "FROM users_activities ua " +
                                                             "         left join users u on ua.user_id = u.id " +
                                                             "WHERE DATE(date_time) = CURRENT_DATE";
+    private static final String FIND_ACTIVITY_BY_USERNAME = "SELECT ua.id, u.name, ua.description, ua.date_time " +
+                                                            "FROM users_activities ua " +
+                                                            "         LEFT JOIN users u ON u.id = ua.user_id " +
+                                                            "WHERE u.name = ?";
 
+
+    private final UserDao userDao = new UserDao();
 
     public List<UserActivity> findAll() {
         List<UserActivity> activities = new ArrayList<>();
@@ -59,9 +65,10 @@ public class UserActivityDao {
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 UserActivityShortDto userActivity = new UserActivityShortDto(
+                        rs.getInt("id"),
                         rs.getString("name"),
                         rs.getString("description"),
-                        rs.getTimestamp("date_time").toLocalDateTime()
+                        rs.getTimestamp("date_time")
                 );
                 activities.add(userActivity);
             }
@@ -112,7 +119,8 @@ public class UserActivityDao {
         return Optional.ofNullable(userActivity);
     }
 
-    public int create(Integer userId, String description) throws DaoException {
+    public int create(String name, String description) throws DaoException {
+        Integer userId = userDao.findIdByName(name);
         try (Connection connection = ConnectionManager.open();
              PreparedStatement statement = connection.prepareStatement(CREATE_USER_ACTIVITY)) {
             statement.setInt(1, userId);
@@ -148,5 +156,29 @@ public class UserActivityDao {
         } catch (SQLException e) {
             throw new DaoException(e);
         }
+    }
+
+    public List<UserActivityShortDto> findAllByName(String name) {
+        List<UserActivityShortDto> activities = new ArrayList<>();
+        try (
+                Connection connection = ConnectionManager.open();
+                PreparedStatement preparedStatement = connection.prepareStatement(FIND_ACTIVITY_BY_USERNAME)
+        ) {
+            preparedStatement.setString(1, name);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                activities.add(
+                        new UserActivityShortDto(
+                                rs.getInt("id"),
+                                rs.getString("name"),
+                                rs.getObject("description", String.class),
+                                rs.getTimestamp("date_time")
+                        )
+                );
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return activities;
     }
 }
