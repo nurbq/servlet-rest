@@ -111,7 +111,7 @@ public class UserDao {
     }
 
 
-    public void update(User entity) throws DaoException {
+    public int update(User entity) throws DaoException {
         try (Connection connection = ConnectionManager.open();
              PreparedStatement statement = connection.prepareStatement(UPDATE_USER)
         ) {
@@ -121,7 +121,8 @@ public class UserDao {
                 statement.setString(3, entity.getName());
                 statement.setString(4, entity.getPassword());
                 statement.setInt(5, entity.getId());
-                statement.executeUpdate();
+                int i = statement.executeUpdate();
+                return i;
             } else {
                 throw new UserNotFoundException(String.format("User with id=%d doesn't exist", entity.getId()));
             }

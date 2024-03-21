@@ -1,6 +1,5 @@
 package lab.andersen.dao;
 
-import lab.andersen.dto.UserActivityExtendedDto;
 import lab.andersen.dto.UserActivityShortDto;
 import lab.andersen.entity.UserActivity;
 import lab.andersen.exception.DaoException;
@@ -14,8 +13,6 @@ import java.util.Optional;
 
 public class UserActivityDao {
     private static final String FIND_ALL = "SELECT id, user_id, description, date_time FROM users_activities;";
-    private static final String FIND_ALL_WITH_USERNAMES =
-            "SELECT a.id, a.user_id, a.description, a.date_time, u.name as username, u.surname as surname FROM users_activities as a left join users as u on u.id = a.user_id  order by a.id;";
     private static final String FIND_BY_ID = "SELECT id, user_id, description, date_time FROM users_activities WHERE id = ?";
     private static final String CREATE_USER_ACTIVITY = "INSERT INTO users_activities(user_id, description) VALUES (?, ?)";
     private static final String UPDATE_USER_ACTIVITY =
@@ -78,27 +75,6 @@ public class UserActivityDao {
         return activities;
     }
 
-    public List<UserActivityExtendedDto> findAllAddUsername() throws DaoException {
-        List<UserActivityExtendedDto> activities = new ArrayList<>();
-        try (Connection connection = ConnectionManager.open();
-             PreparedStatement statement = connection.prepareStatement(FIND_ALL_WITH_USERNAMES)) {
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                UserActivityExtendedDto userActivity = new UserActivityExtendedDto(
-                        resultSet.getInt("id"),
-                        resultSet.getInt("user_id"),
-                        resultSet.getString("description"),
-                        resultSet.getTimestamp("date_time"),
-                        resultSet.getString("username") + " " + resultSet.getString("surname")
-                );
-                activities.add(userActivity);
-            }
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        }
-        return activities;
-    }
-
     public Optional<UserActivity> findById(int id) throws DaoException {
         UserActivity userActivity = null;
         try (Connection connection = ConnectionManager.open();
@@ -132,7 +108,7 @@ public class UserActivityDao {
         }
     }
 
-    public void update(UserActivity entity) throws DaoException {
+    public int update(UserActivity entity) throws DaoException {
         try (Connection connection = ConnectionManager.open();
              PreparedStatement statement = connection.prepareStatement(UPDATE_USER_ACTIVITY)) {
             if (findById(entity.getId()).isPresent()) {
@@ -140,6 +116,8 @@ public class UserActivityDao {
                 statement.setString(2, entity.getDescription());
                 statement.setTimestamp(3, entity.getDateTime());
                 statement.setInt(4, entity.getId());
+
+                return statement.executeUpdate();
             } else {
                 throw new UserActivityNotFoundException("user activity with id=%d doesn't exist".formatted(entity.getId()));
             }

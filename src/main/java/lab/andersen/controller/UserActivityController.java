@@ -94,9 +94,9 @@ public class UserActivityController extends FrontController {
         ) {
             String userActivityLines = reader.lines().collect(Collectors.joining());
             CreateUserActivityDto user = gson.fromJson(userActivityLines, CreateUserActivityDto.class);
-            int id = userActivityService.create(authenticatedUsername, user);
+            int isExecuted = userActivityService.create(authenticatedUsername, user);
 
-            writer.print(id);
+            writer.print(isExecuted);
             response.setStatus(HttpServletResponse.SC_CREATED);
         } catch (ServiceException e) {
             throw new RuntimeException(e);
@@ -104,10 +104,12 @@ public class UserActivityController extends FrontController {
     }
 
     private void handlePut(HttpServletRequest request, HttpServletResponse response, String[] splitPath) throws IOException {
-        try (BufferedReader reader = request.getReader()) {
+        try (BufferedReader reader = request.getReader();
+             PrintWriter writer = response.getWriter()) {
             String userActivityLines = reader.lines().collect(Collectors.joining());
             UserActivity user = gson.fromJson(userActivityLines, UserActivity.class);
-            userActivityService.update(user);
+            int isExecuted = userActivityService.update(user);
+            writer.print(isExecuted);
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }

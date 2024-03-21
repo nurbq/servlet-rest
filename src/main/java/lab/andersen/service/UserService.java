@@ -24,6 +24,7 @@ public class UserService {
         try {
             return userDao.findAll().stream()
                     .map(user -> new UserDto(
+                            user.getId(),
                             user.getSurname(),
                             user.getName(),
                             user.getAge()
@@ -52,15 +53,16 @@ public class UserService {
     public Optional<UserDto> login(String name, String password) {
         return userDao.findByNameAndPassword(name, password)
                 .map(it -> new UserDto(
+                        it.getId(),
                         it.getSurname(),
                         it.getName(),
                         it.getAge()
                 ));
     }
 
-    public void update(User user) throws ServiceException {
+    public int update(User user) throws ServiceException {
         try {
-            userDao.update(user);
+            return userDao.update(user);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

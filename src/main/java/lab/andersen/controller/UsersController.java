@@ -91,10 +91,15 @@ public class UsersController extends FrontController {
     }
 
     private void handlePut(HttpServletRequest request, HttpServletResponse response, String[] splitPath) throws IOException {
-        try (BufferedReader reader = request.getReader()) {
+        try (
+                BufferedReader reader = request.getReader();
+                PrintWriter writer = response.getWriter()
+        ) {
             String jsonUser = reader.lines().collect(Collectors.joining());
             User user = gson.fromJson(jsonUser, User.class);
-            userService.update(user);
+            int update = userService.update(user);
+
+            writer.print(update);
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }

@@ -64,9 +64,9 @@ public class UserActivityService {
         }
     }
 
-    public void update(UserActivity userActivity) throws ServiceException {
+    public int update(UserActivity userActivity) throws ServiceException {
         try {
-            userActivityDao.update(userActivity);
+            return userActivityDao.update(userActivity);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
