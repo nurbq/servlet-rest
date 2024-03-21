@@ -46,7 +46,7 @@ public final class PdfGenerator {
 
         allTodayActivitiesFromDb.forEach(userActivity -> {
                     String userInformationText = userActivity.getUserName() + " " +
-                                                 userActivity.getDescription() + " " + userActivity.getDateTime().toLocalTime();
+                                                 userActivity.getDescription() + " " + userActivity.getDateTime();
                     listToPdf.add(userInformationText);
                 }
         );
