@@ -1,0 +1,496 @@
+{
+	"info": {
+		"_postman_id": "ca02755f-a771-4baf-a35f-3d13958f2da6",
+		"name": "Servlet-Rest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17712775"
+	},
+	"item": [
+		{
+			"name": "User Edit",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "test",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "Test",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 8,\n    \"age\": 15,\n    \"surname\": \"Puter\",\n    \"name\": \"Put\",\n    \"password\":\"test12345\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://192.168.100.6:8088/api/front/Users/",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"100",
+						"6"
+					],
+					"port": "8088",
+					"path": [
+						"api",
+						"front",
+						"Users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Delete",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "test",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "Test",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://192.168.100.6:8088/api/front/Users/3",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"100",
+						"6"
+					],
+					"port": "8088",
+					"path": [
+						"api",
+						"front",
+						"Users",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Add",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "test",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "Test",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Elon\",\n    \"surname\": \"Musk\",\n    \"age\": \"51\",\n    \"password\":\"test123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://192.168.100.6:8088/api/front/Users",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"100",
+						"6"
+					],
+					"port": "8088",
+					"path": [
+						"api",
+						"front",
+						"Users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User List",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "test",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "Test",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"Test\",\n    \"password\":\"test\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://192.168.100.6:8088/api/front/Users",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"100",
+						"6"
+					],
+					"port": "8088",
+					"path": [
+						"api",
+						"front",
+						"Users"
+					],
+					"query": [
+						{
+							"key": "asd",
+							"value": "asd",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Users By Id",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "Test",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "test",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://192.168.100.6:8088/api/front/Users/2",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"100",
+						"6"
+					],
+					"port": "8088",
+					"path": [
+						"api",
+						"front",
+						"Users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Activity List",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "test",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "Test",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://192.168.100.6:8088/api/front/UserActivity",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"100",
+						"6"
+					],
+					"port": "8088",
+					"path": [
+						"api",
+						"front",
+						"UserActivity"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Activity by Id",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "test",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "Test",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://192.168.100.6:8088/api/front/UserActivity/2",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"100",
+						"6"
+					],
+					"port": "8088",
+					"path": [
+						"api",
+						"front",
+						"UserActivity",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Activity add",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "test",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "Test",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"description\": \"I am doing\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://192.168.100.6:8088/api/front/UserActivity",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"100",
+						"6"
+					],
+					"port": "8088",
+					"path": [
+						"api",
+						"front",
+						"UserActivity"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Activity Edit",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "test",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "Test",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 1,\n    \"userId\": 1,\n    \"description\": \"postman description PUT 1\",\n    \"dateTime\": \"2024-03-20 07:58:35.0\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://192.168.100.6:8088/api/front/UserActivity",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"100",
+						"6"
+					],
+					"port": "8088",
+					"path": [
+						"api",
+						"front",
+						"UserActivity"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ActivityDelete",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "test",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "Test",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://192.168.100.6:8088/api/front/UserActivity/3",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"100",
+						"6"
+					],
+					"port": "8088",
+					"path": [
+						"api",
+						"front",
+						"UserActivity",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Registration",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"fourth\",\n    \"surname\": \"sdfsdf\",\n    \"age\": \"53\",\n    \"password\":\"test123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://192.168.100.6:8088/api/front/Register",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"100",
+						"6"
+					],
+					"port": "8088",
+					"path": [
+						"api",
+						"front",
+						"Register"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
